@@ -10,7 +10,10 @@ import {
     Edit,
     EditButton,
     Show,
-    SimpleShowLayout
+    SimpleShowLayout,
+    required,
+    minLength,
+    maxLength
 } from 'react-admin';
 
 const categoryRole = [
@@ -39,11 +42,14 @@ export const UserShow = (props) => (
     </Show>
 );
 
+const validateUsername = [required(), minLength(6), maxLength(25)];
+const validatePassword = [required(), minLength(6), maxLength(35)];
+
 export const UserCreate = props => (
     <Create {...props}>
-        <SimpleForm>
-            <TextInput resettable source="username" />
-            <TextInput resettable type="password" source="password" />
+        <SimpleForm submitOnEnter={true}>
+            <TextInput resettable source="username" validate={validateUsername} />
+            <TextInput resettable type="password" source="password" validate={validatePassword} />
             <SelectInput source="role" choices={categoryRole}>
             </SelectInput>
         </SimpleForm>

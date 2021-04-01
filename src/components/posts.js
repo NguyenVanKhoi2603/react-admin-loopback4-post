@@ -14,7 +14,10 @@ import {
     ReferenceField,
     ChipField,
     ReferenceInput,
-    SelectInput
+    SelectInput,
+    Show,
+    RichTextField,
+    SimpleShowLayout
 } from 'react-admin';
 const PostFilter = (props) => (
     <Filter {...props}>
@@ -25,12 +28,26 @@ const PostFilter = (props) => (
     </Filter>
 );
 const PostPagination = props => <Pagination rowsPerPageOptions={[2, 5, 7, 10]} {...props} />;
+const PostPanel = ({ id, record, resource }) => (
+    <div dangerouslySetInnerHTML={{ __html: record.content }} />
+);
+
+const PostShow = props => (
+    <Show
+        {...props}
+        /* disable the app title change when shown */
+        title=" "
+    >
+        <SimpleShowLayout>
+            <RichTextField source="content" />
+        </SimpleShowLayout>
+    </Show>
+);
 export const PostList = props => (
     <List pagination={<PostPagination />} filters={<PostFilter />} {...props}>
-        <Datagrid rowClick="edit">
+        <Datagrid rowClick="edit" expand={<PostPanel />}>
             <TextField source="id" />
             <TextField source="title" />
-            <TextField source="content" />
             <ReferenceField source="userId" reference="users" >
                 <ChipField source="username"></ChipField>
             </ReferenceField>
@@ -45,7 +62,7 @@ export const PostEdit = props => (
         <SimpleForm>
             <TextField source="id" />
             <TextInput source="title" />
-            <TextInput source="content" />
+            <TextInput source="content" multiline />
             <ReferenceField source="userId" reference="users" >
                 <TextField source="username"></TextField>
             </ReferenceField>
