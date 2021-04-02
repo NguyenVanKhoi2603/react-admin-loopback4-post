@@ -26,6 +26,14 @@ const CommentFilter = (props) => (
         </ReferenceInput>
     </Filter>
 );
+const optionsTime = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+}
 export const CommentList = props => (
     <List filters={<CommentFilter />} {...props}>
         <Datagrid rowClick="show">
@@ -35,7 +43,7 @@ export const CommentList = props => (
             <ReferenceField source="userId" reference="users" >
                 <ChipField source="username"></ChipField>
             </ReferenceField>
-            <DateField source="timestamp" showTime></DateField>
+            <DateField source="timestamp" locales="vi" options={optionsTime}></DateField>
             <EditButton></EditButton>
         </Datagrid>
     </List>

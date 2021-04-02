@@ -13,7 +13,8 @@ import {
     SimpleShowLayout,
     required,
     minLength,
-    maxLength
+    maxLength,
+    Filter
 } from 'react-admin';
 
 const categoryRole = [
@@ -21,8 +22,14 @@ const categoryRole = [
     { id: 0, name: 'Admin' },
 ]
 
+const UserFilter = (props) => (
+    <Filter {...props}>
+        <TextInput multiline label="search User" source="q" alwayOn />
+    </Filter>
+)
+
 export const UserList = props => (
-    <List {...props}>
+    <List {...props} filters={<UserFilter />}>
         <Datagrid rowClick="show">
             <TextField source="id" />
             <TextField source="username" />

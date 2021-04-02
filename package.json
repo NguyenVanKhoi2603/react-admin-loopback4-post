@@ -12,8 +12,11 @@
     "ra-core": "^3.14.1",
     "ra-data-json-server": "^3.13.5",
     "ra-data-lb4": "^0.3.0",
+    "ra-i18n-polyglot": "^3.14.1",
+    "ra-language-english": "^3.14.1",
+    "ra-language-vietnamese": "^3.0.1",
     "react": "^17.0.2",
-    "react-admin": "^3.13.5",
+    "react-admin": "^3.14.1",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"

@@ -16,8 +16,8 @@ import {
     ReferenceInput,
     SelectInput,
     Show,
-    RichTextField,
-    SimpleShowLayout
+    SimpleShowLayout,
+    ShowButton
 } from 'react-admin';
 const PostFilter = (props) => (
     <Filter {...props}>
@@ -32,17 +32,28 @@ const PostPanel = ({ id, record, resource }) => (
     <div dangerouslySetInnerHTML={{ __html: record.content }} />
 );
 
-const PostShow = props => (
-    <Show
-        {...props}
-        /* disable the app title change when shown */
-        title=" "
-    >
+export const PostShow = (props) => (
+    <Show {...props}>
         <SimpleShowLayout>
-            <RichTextField source="content" />
+            <TextField source="id" />
+            <ReferenceField source="userId" reference="users" >
+                <TextField source="username"></TextField>
+            </ReferenceField>
+            <TextField source="title" />
+            <TextField source="content" />
+            <DateField options={optionsTime} source="timestamp" locales="vi" />
         </SimpleShowLayout>
     </Show>
 );
+
+const optionsTime = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+}
 export const PostList = props => (
     <List pagination={<PostPagination />} filters={<PostFilter />} {...props}>
         <Datagrid rowClick="edit" expand={<PostPanel />}>
@@ -51,8 +62,9 @@ export const PostList = props => (
             <ReferenceField source="userId" reference="users" >
                 <ChipField source="username"></ChipField>
             </ReferenceField>
-            <DateField source="timestamp" showTime></DateField>
+            <DateField source="timestamp" options={optionsTime} locales="vi"></DateField>
             <EditButton></EditButton>
+            <ShowButton></ShowButton>
         </Datagrid>
     </List>
 );
