@@ -14,12 +14,21 @@ import {
     required,
     minLength,
     maxLength,
-    Filter
+    Filter,
+    EmailField,
+    BooleanField,
+    BooleanInput,
+    ChipField
 } from 'react-admin';
 
+const categoryGender = [
+    { id: true, name: 'Men' },
+    { id: false, name: 'Women' },
+]
+
 const categoryRole = [
-    { id: 1, name: 'Customer' },
-    { id: 0, name: 'Admin' },
+    { id: 'ADMIN', name: 'ADMIN' },
+    { id: 'USER', name: 'USER' },
 ]
 
 const UserFilter = (props) => (
@@ -33,8 +42,9 @@ export const UserList = props => (
         <Datagrid rowClick="show">
             <TextField source="id" />
             <TextField source="username" />
-            <TextField source="password" />
-            <TextField source="role"></TextField>
+            <EmailField source="email" />
+            <BooleanField source="gender"></BooleanField>
+            <ChipField source="role" />
             <EditButton></EditButton>
         </Datagrid>
     </List>
@@ -44,7 +54,8 @@ export const UserShow = (props) => (
         <SimpleShowLayout>
             <TextField source="id" />
             <TextField source="username" />
-            <TextField source="password" />
+            <TextField source="email" />
+            <TextField source="role" />
         </SimpleShowLayout>
     </Show>
 );
@@ -55,10 +66,11 @@ const validatePassword = [required(), minLength(6), maxLength(35)];
 export const UserCreate = props => (
     <Create {...props}>
         <SimpleForm submitOnEnter={true}>
-            <TextInput resettable source="username" validate={validateUsername} />
-            <TextInput resettable type="password" source="password" validate={validatePassword} />
-            <SelectInput source="role" choices={categoryRole}>
+            <SelectInput source="Gender" choices={categoryGender}>
             </SelectInput>
+            <TextInput resettable source="username" validate={validateUsername} />
+            <TextInput resettable source="email" />
+            <TextInput resettable type="password" source="password" validate={validatePassword} />
         </SimpleForm>
     </Create>
 );
@@ -68,11 +80,10 @@ export const UserEdit = props => (
         <SimpleForm>
             <TextField source="id" />
             <TextInput resettable source="username" />
-            <TextInput resettable type="password" source="password" />
-            <SelectInput source="role" choices={[
-                { id: 1, name: 'customer' },
-                { id: 0, name: 'admin' },
-            ]}>
+            <TextInput resettable source="email" />
+            <SelectInput source="gender" choices={categoryGender}>
+            </SelectInput>
+            <SelectInput source="role" choices={categoryRole}>
             </SelectInput>
         </SimpleForm>
     </Edit>
