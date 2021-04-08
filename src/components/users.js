@@ -17,7 +17,6 @@ import {
     Filter,
     EmailField,
     BooleanField,
-    BooleanInput,
     ChipField
 } from 'react-admin';
 

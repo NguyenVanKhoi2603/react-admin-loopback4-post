@@ -1,4 +1,4 @@
-import decodeJwt from 'jwt-decode';
+
 const authProvider = {
     login: ({ username, password }) => {
         const request = new Request('http://localhost:3000/login', {

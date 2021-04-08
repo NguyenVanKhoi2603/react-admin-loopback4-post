@@ -6,7 +6,6 @@ import { UserList, UserCreate, UserEdit, UserShow } from './components/users';
 import { dataProvider } from './dataProvider/iDataProvider';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import vietNamMessage from 'ra-language-vietnamese';
-import Menu from './menu';
 //import { authProvider } from './dataProvider/authProvider';
 import authProvider from "./dataProvider/myAuthProvider";
 import PostIcon from '@material-ui/icons/Book';
@@ -35,13 +34,13 @@ const App = () => (
       show={UserShow}
       icon={UserIcon}>
     </Resource>
-    {/* <Resource
+    <Resource
       name="comments"
       list={CommentList}
       create={CommentCreate}
       edit={CommentEdit}
       show={CommentShow}>
-    </Resource> */}
+    </Resource>
   </Admin>
 )
 export default App;

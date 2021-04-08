@@ -16,7 +16,9 @@ import {
     Edit,
     Filter,
     SimpleShowLayout,
-    Show
+    Show,
+    ImageInput,
+    ImageField
 } from 'react-admin';
 const CommentFilter = (props) => (
     <Filter {...props}>
@@ -55,6 +57,7 @@ export const CommentCreate = props => (
             <ReferenceInput source="userId" reference="users">
                 <SelectInput optionText="username" />
             </ReferenceInput>
+
             <ReferenceInput source="postId" reference="posts">
                 <SelectInput optionText="title" />
             </ReferenceInput>
