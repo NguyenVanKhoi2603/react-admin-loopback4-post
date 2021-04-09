@@ -17,9 +17,14 @@ import {
     Filter,
     EmailField,
     BooleanField,
-    ChipField
+    ChipField,
+    useListContext,
+    DateField,
+    ReferenceField,
+    usePermissions,
 } from 'react-admin';
-
+import PersonIcon from '@material-ui/icons/Person';
+import { Card, CardActions, CardContent, CardHeader, Avatar } from '@material-ui/core';
 const categoryGender = [
     { id: true, name: 'Men' },
     { id: false, name: 'Women' },
@@ -35,17 +40,52 @@ const UserFilter = (props) => (
         <TextInput multiline label="search User" source="q" alwayOn />
     </Filter>
 )
+const cardStyle = {
+    width: 300,
+    margin: '0.5em',
+    display: 'inline-block',
+    verticalAlign: 'top'
+};
+
+const UserGrid = () => {
+    const { ids, data, basePath } = useListContext();
+    const { loading, permissions } = usePermissions();
+    return (
+        permissions !== `"ADMIN"` ? (<div>
+            Error 401
+        </div>) :
+            (<div style={{ margin: '1em' }}>
+                {ids.map(id =>
+                    <Card key={id} style={cardStyle}>
+                        <CardHeader
+                            title={<TextField record={data[id]} source="username" />}
+                            subheader={<EmailField record={data[id]} source="email" />}
+                            avatar={<Avatar icon={<PersonIcon />} />}
+                        />
+                        {/* <CardContent>
+                        <TextField record={data[id]} source="body" />
+                    </CardContent>
+                     */}
+                        <CardActions style={{ textAlign: 'right' }}>
+                            <EditButton resource="users" basePath={basePath} record={data[id]} />
+                        </CardActions>
+                    </Card>
+                )}
+            </div>)
+    );
+};
 
 export const UserList = props => (
     <List {...props} filters={<UserFilter />}>
-        <Datagrid rowClick="show">
+        {/* <Datagrid rowClick="show">
             <TextField source="id" />
             <TextField source="username" />
             <EmailField source="email" />
             <BooleanField source="gender"></BooleanField>
             <ChipField source="role" />
             <EditButton></EditButton>
-        </Datagrid>
+        </Datagrid> */}
+        <UserGrid />
     </List>
 );
 export const UserShow = (props) => (

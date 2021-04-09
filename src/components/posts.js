@@ -17,7 +17,8 @@ import {
     SelectInput,
     Show,
     SimpleShowLayout,
-    ShowButton
+    ShowButton,
+    usePermissions
 } from 'react-admin';
 const PostFilter = (props) => (
     <Filter {...props}>
@@ -54,6 +55,7 @@ const optionsTime = {
     minute: '2-digit',
     second: '2-digit',
 }
+
 export const PostList = props => (
     <List pagination={<PostPagination />} filters={<PostFilter />} {...props}>
         <Datagrid rowClick="edit" expand={<PostPanel />}>

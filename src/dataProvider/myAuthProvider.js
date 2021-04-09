@@ -11,11 +11,13 @@ const authProvider = {
                 if (response.status < 200 || response.status >= 300) {
                     throw new Error(response.statusText);
                 }
-                console.log(response);
                 return response.json();
             })
             .then(token => {
                 localStorage.setItem('token', JSON.stringify(token));
+                //requestHeaders.set('Authorization', `Bearer ${token.token}`)
+                //headers: new headers({ 'Authorization': 'Bearer ' + token.token })
+                localStorage.setItem('permissions', JSON.stringify(token.info.role));
             })
             .catch(() => {
 

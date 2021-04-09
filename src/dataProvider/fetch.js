@@ -4,7 +4,7 @@ import storage from './storage'
 const fetchJson = async (url, options = {}) => {
   const requestHeaders = (options.headers || new Headers({ Accept: 'application/json' }))
   if (!requestHeaders.has('Content-Type') &&
-  !(options && options.body && options.body instanceof FormData)) {
+    !(options && options.body && options.body instanceof FormData)) {
     requestHeaders.set('Content-Type', 'application/json')
   }
   if (options.user && options.user.authenticated && options.user.token) {
@@ -30,11 +30,13 @@ const fetchJson = async (url, options = {}) => {
   }
   return Promise.resolve({ status: status, headers: headers, body: body, json: json })
 }
-  
+
 export default (url, options = {}) => {
   options.user = {
     authenticated: true,
-    token: storage.load('lbtoken').token
+    token: JSON.parse(localStorage.getItem('token')).token
+    //token: storage.load('token').token
   }
+  console.log(storage.load('token'));
   return fetchJson(url, options)
 }
