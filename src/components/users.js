@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
     List,
-    Datagrid,
     TextField,
     TextInput,
     SelectInput,
@@ -16,15 +15,15 @@ import {
     maxLength,
     Filter,
     EmailField,
-    BooleanField,
-    ChipField,
     useListContext,
-    DateField,
-    ReferenceField,
     usePermissions,
+    ShowButton,
+    ChipField,
+    FormField,
+    FormInput,
 } from 'react-admin';
 import PersonIcon from '@material-ui/icons/Person';
-import { Card, CardActions, CardContent, CardHeader, Avatar } from '@material-ui/core';
+import { Card, CardActions, CardHeader, Avatar, CardContent } from '@material-ui/core';
 const categoryGender = [
     { id: true, name: 'Men' },
     { id: false, name: 'Women' },
@@ -41,7 +40,7 @@ const UserFilter = (props) => (
     </Filter>
 )
 const cardStyle = {
-    width: 300,
+    width: 320,
     margin: '0.5em',
     display: 'inline-block',
     verticalAlign: 'top'
@@ -51,8 +50,8 @@ const UserGrid = () => {
     const { ids, data, basePath } = useListContext();
     const { loading, permissions } = usePermissions();
     return (
-        permissions !== `"ADMIN"` ? (<div>
-            Error 401
+        permissions !== `"MANAGER"` ? (<div>
+            Forbidden
         </div>) :
             (<div style={{ margin: '1em' }}>
                 {ids.map(id =>
@@ -62,12 +61,16 @@ const UserGrid = () => {
                             subheader={<EmailField record={data[id]} source="email" />}
                             avatar={<Avatar icon={<PersonIcon />} />}
                         />
-                        {/* <CardContent>
-                        <TextField record={data[id]} source="body" />
-                    </CardContent>
-                     */}
-                        <CardActions style={{ textAlign: 'right' }}>
-                            <EditButton resource="users" basePath={basePath} record={data[id]} />
+                        <CardContent>
+                            <ChipField record={data[id]} source="role" />
+                        </CardContent>
+                        <CardActions>
+                            <CardActions style={{ textAlign: 'right' }}>
+                                <EditButton resource="users" basePath={basePath} record={data[id]} />
+                            </CardActions>
+                            <CardActions style={{ textAlign: 'left' }}>
+                                <ShowButton resource="users" basePath={basePath} record={data[id]} />
+                            </CardActions>
                         </CardActions>
                     </Card>
                 )}
@@ -102,17 +105,40 @@ export const UserShow = (props) => (
 const validateUsername = [required(), minLength(6), maxLength(25)];
 const validatePassword = [required(), minLength(6), maxLength(35)];
 
-export const UserCreate = props => (
-    <Create {...props}>
-        <SimpleForm submitOnEnter={true}>
-            <SelectInput source="Gender" choices={categoryGender}>
-            </SelectInput>
-            <TextInput resettable source="username" validate={validateUsername} />
-            <TextInput resettable source="email" />
-            <TextInput resettable type="password" source="password" validate={validatePassword} />
-        </SimpleForm>
-    </Create>
-);
+// export const UserCreate = props => (
+//     <Create {...props}>
+//         <SimpleForm submitOnEnter={true}>
+//             <SelectInput source="Gender" choices={categoryGender}>
+//             </SelectInput>
+//             <TextInput resettable source="username" validate={validateUsername} />
+//             <TextInput resettable source="email" />
+//             <TextInput resettable type="password" source="password" validate={validatePassword} />
+//         </SimpleForm>
+//     </Create>
+// );
+
+export const UserCreate = props => {
+    return (
+        <div>
+            {/* <FormInput>
+
+                <TextInput id="outlined-basic" label="lni" variant="outlined" source="username"></TextInput>
+            </FormInput> */}
+
+            <form noValidate autoComplete="off">
+                <TextField id="standard-basic" label="Standard" />
+                <TextField id="filled-basic" label="Filled" variant="filled" />
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+            </form>
+
+        </div>
+        // <form noValidate autoComplete="off">
+        //     <TextField id="standard-basic" label="Standard" />
+        //     <TextField id="filled-basic" label="Filled" variant="filled" />
+        //     <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        // </form>
+    )
+}
 
 export const UserEdit = props => (
     <Edit {...props}>

@@ -18,6 +18,9 @@ const authProvider = {
                 //requestHeaders.set('Authorization', `Bearer ${token.token}`)
                 //headers: new headers({ 'Authorization': 'Bearer ' + token.token })
                 localStorage.setItem('permissions', JSON.stringify(token.info.role));
+                localStorage.setItem('userId', JSON.stringify(token.info.id));
+                localStorage.setItem('username', JSON.stringify(token.info.username));
+
             })
             .catch(() => {
 
@@ -28,6 +31,7 @@ const authProvider = {
         const status = error.status;
         if (status === 401 || status === 403) {
             localStorage.removeItem('token');
+            localStorage.removeItem('permissions');
             return Promise.reject({ message: false });
         }
         return Promise.resolve();
@@ -37,7 +41,9 @@ const authProvider = {
         : Promise.reject({ message: false }),
     logout: () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('permissions');
         return Promise.resolve();
+
     },
 
     getIdentity: () => {

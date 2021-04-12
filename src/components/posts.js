@@ -18,7 +18,6 @@ import {
     Show,
     SimpleShowLayout,
     ShowButton,
-    usePermissions
 } from 'react-admin';
 const PostFilter = (props) => (
     <Filter {...props}>
@@ -89,7 +88,7 @@ export const PostCreate = props => (
     <Create {...props}>
         <SimpleForm>
             <TextInput resettable source="title" />
-            <TextInput resettable source="content" />
+            <TextInput resettable multiline source="content" />
             <ReferenceInput source="userId" reference="users">
                 <SelectInput optionText="username" />
             </ReferenceInput>

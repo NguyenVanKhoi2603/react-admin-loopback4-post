@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
     ChipField,
-    Datagrid,
     List,
     TextField,
     EditButton,
@@ -17,9 +16,10 @@ import {
     Filter,
     SimpleShowLayout,
     Show,
-    ImageInput,
-    ImageField
+    FunctionField,
+
 } from 'react-admin';
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 const CommentFilter = (props) => (
     <Filter {...props}>
         <TextInput multiline label="Search" source="q" alwaysOn />
@@ -36,18 +36,20 @@ const optionsTime = {
     minute: '2-digit',
     second: '2-digit',
 }
+
+{/* <ChipField source="username" /> */ }
 export const CommentList = props => (
     <List filters={<CommentFilter />} {...props}>
-        <Datagrid rowClick="show">
+        <CustomizableDatagrid rowClick="show">
             <TextField source="id" />
             <TextField source="content" />
             <TextField source="postId" />
             <ReferenceField source="userId" reference="users" >
-                <ChipField source="username"></ChipField>
+                <ChipField source="username" />
             </ReferenceField>
-            <DateField source="timestamp" locales="vi" options={optionsTime}></DateField>
+            <DateField source="timestamp" locales="vi" options={optionsTime} />
             <EditButton></EditButton>
-        </Datagrid>
+        </CustomizableDatagrid>
     </List>
 );
 export const CommentCreate = props => (

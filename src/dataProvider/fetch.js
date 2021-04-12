@@ -1,5 +1,5 @@
 import { HttpError } from 'react-admin'
-import storage from './storage'
+//import storage from './storage'
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders = (options.headers || new Headers({ Accept: 'application/json' }))
@@ -37,6 +37,5 @@ export default (url, options = {}) => {
     token: JSON.parse(localStorage.getItem('token')).token
     //token: storage.load('token').token
   }
-  console.log(storage.load('token'));
   return fetchJson(url, options)
 }
