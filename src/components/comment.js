@@ -16,7 +16,6 @@ import {
     Filter,
     SimpleShowLayout,
     Show,
-    FunctionField,
 
 } from 'react-admin';
 import CustomizableDatagrid from 'ra-customizable-datagrid';

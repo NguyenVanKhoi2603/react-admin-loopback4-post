@@ -10,14 +10,19 @@ import authProvider from "./dataProvider/myAuthProvider";
 import PostIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/People';
 import MyLayout from "./components/MyLayout";
+import Dashboard from "./components/Dashboard";
+import { createBrowserHistory } from "history";
 
 const i18nProvider = polyglotI18nProvider(() => vietNamMessage, 'fr');
+const history = createBrowserHistory();
 const App = () => (
   <Admin
     dataProvider={dataProvider}
     i18nProvider={i18nProvider}
     authProvider={authProvider}
+    dashboard={Dashboard}
     layout={MyLayout}
+    history={history}
   >
 
     {permissions => [
@@ -32,7 +37,7 @@ const App = () => (
         name="posts"
         list={PostList}
         edit={permissions === `"ADMIN"` ? PostEdit : null}
-        create={permissions === `"ADMIN"` ? PostCreate : null}
+        create={permissions === `"ADMIN"` || permissions === `"MANAGER"` ? PostCreate : null}
         show={PostShow}
         icon={PostIcon}
       />,
