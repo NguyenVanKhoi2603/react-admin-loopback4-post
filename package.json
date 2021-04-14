@@ -34,6 +34,18 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "src/dataProvider/fetch.js",
+          "src/components/Dashboard.js",
+          "src/dataProvider/storage.js"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {

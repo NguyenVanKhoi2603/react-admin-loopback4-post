@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { AppBar } from 'react-admin';
+import { AppBar, useSetLocale } from 'react-admin';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 const useStyles = makeStyles({
     title: {
@@ -26,16 +23,18 @@ const useStyles = makeStyles({
 
 const MyAppBar = props => {
     const classes = useStyles();
-    const [age, setAge] = React.useState('');
+    const [localApp, setLocalApp] = React.useState('vietnamese');
+    const setLocale = useSetLocale();
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setLocalApp(event.target.value);
+        setLocale(event.target.value)
     };
     return (
         <AppBar style={{ backgroundColor: 'Success' }} {...props}>
             <Typography
                 variant="h6"
-                color="white"
+                color="initial"
                 className={classes.title}
                 id="react-admin-title"
             />
@@ -43,21 +42,16 @@ const MyAppBar = props => {
             <span>
                 {localStorage.getItem('username').split(`"`)}
             </span>
-
-            <FormControl className={classes.formControl, classes.space}>
-                <Select
-                    labelId=""
-                    id=""
-                    value={age}
-                    onChange={handleChange}
-                    style={{ marginLeft: 30, paddingRight: 20 }}
-                >
-                    <MenuItem selected value={10}>vietnamese</MenuItem>
-                    <MenuItem value={20}>english</MenuItem>
-                    <MenuItem value={30}>korean</MenuItem>
-                </Select>
-            </FormControl>
-
+            <Select
+                value={localApp}
+                onChange={handleChange}
+                style={{ marginLeft: 30, paddingRight: 20 }}
+            >
+                <MenuItem
+                    selected={true}
+                    value={'vi'}>vietnamese</MenuItem>
+                <MenuItem value={'en'}>english</MenuItem>
+            </Select>
         </AppBar>
     );
 };

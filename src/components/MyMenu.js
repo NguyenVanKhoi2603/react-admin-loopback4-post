@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from '@material-ui/core';
-import { DashboardMenuItem, MenuItemLink, getResources } from 'react-admin';
+import { DashboardMenuItem } from 'react-admin';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -9,12 +9,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { PersonOutline, CommentOutlined } from '@material-ui/icons';
 import FeaturedPlayListOutlinedIcon from '@material-ui/icons/FeaturedPlayListOutlined';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import LabelImportantOutlinedIcon from '@material-ui/icons/LabelImportantOutlined';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,11 +30,8 @@ const useStyles = makeStyles((theme) => ({
 const Menu = ({ onMenuClick, logout }) => {
     const isXSmall = useMediaQuery(theme => theme.breakpoints.down('xs'));
     const open = useSelector(state => state.admin.ui.sidebarOpen);
-    const resources = useSelector(getResources);
-
     const classes = useStyles();
     const [openMenu, setOpenMenu] = React.useState(false);
-
     const handleClick = () => {
         setOpenMenu(!openMenu);
     };
@@ -56,7 +53,7 @@ const Menu = ({ onMenuClick, logout }) => {
                     <ListItemIcon>
                         <PersonOutline />
                     </ListItemIcon>
-                    <ListItemText primary="User" />
+                    <ListItemText primary="Users" />
                 </ListItem>
 
                 <ListItem button onClick={handleClick}>

@@ -36,7 +36,6 @@ const optionsTime = {
     second: '2-digit',
 }
 
-{/* <ChipField source="username" /> */ }
 export const CommentList = props => (
     <List filters={<CommentFilter />} {...props}>
         <CustomizableDatagrid rowClick="show">

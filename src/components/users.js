@@ -19,10 +19,9 @@ import {
     usePermissions,
     ShowButton,
     ChipField,
-    FormField,
-    FormInput,
 } from 'react-admin';
 import PersonIcon from '@material-ui/icons/Person';
+
 import { Card, CardActions, CardHeader, Avatar, CardContent } from '@material-ui/core';
 const categoryGender = [
     { id: true, name: 'Men' },
@@ -48,7 +47,7 @@ const cardStyle = {
 
 const UserGrid = () => {
     const { ids, data, basePath } = useListContext();
-    const { loading, permissions } = usePermissions();
+    const { permissions } = usePermissions();
     return (
         permissions !== `"MANAGER"` ? (<div>
             Forbidden
@@ -105,40 +104,17 @@ export const UserShow = (props) => (
 const validateUsername = [required(), minLength(6), maxLength(25)];
 const validatePassword = [required(), minLength(6), maxLength(35)];
 
-// export const UserCreate = props => (
-//     <Create {...props}>
-//         <SimpleForm submitOnEnter={true}>
-//             <SelectInput source="Gender" choices={categoryGender}>
-//             </SelectInput>
-//             <TextInput resettable source="username" validate={validateUsername} />
-//             <TextInput resettable source="email" />
-//             <TextInput resettable type="password" source="password" validate={validatePassword} />
-//         </SimpleForm>
-//     </Create>
-// );
-
-export const UserCreate = props => {
-    return (
-        <div>
-            {/* <FormInput>
-
-                <TextInput id="outlined-basic" label="lni" variant="outlined" source="username"></TextInput>
-            </FormInput> */}
-
-            <form noValidate autoComplete="off">
-                <TextField id="standard-basic" label="Standard" />
-                <TextField id="filled-basic" label="Filled" variant="filled" />
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-            </form>
-
-        </div>
-        // <form noValidate autoComplete="off">
-        //     <TextField id="standard-basic" label="Standard" />
-        //     <TextField id="filled-basic" label="Filled" variant="filled" />
-        //     <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        // </form>
-    )
-}
+export const UserCreate = props => (
+    <Create {...props}>
+        <SimpleForm submitOnEnter={true}>
+            <SelectInput source="Gender" choices={categoryGender}>
+            </SelectInput>
+            <TextInput resettable source="username" validate={validateUsername} />
+            <TextInput resettable source="email" />
+            <TextInput resettable type="password" source="password" validate={validatePassword} />
+        </SimpleForm>
+    </Create>
+);
 
 export const UserEdit = props => (
     <Edit {...props}>

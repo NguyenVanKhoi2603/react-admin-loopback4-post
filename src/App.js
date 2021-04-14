@@ -6,6 +6,7 @@ import { UserList, UserCreate, UserEdit, UserShow } from './components/users';
 import { dataProvider } from './dataProvider/iDataProvider';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import vietNamMessage from 'ra-language-vietnamese';
+import englishMessages from "ra-language-english";
 import authProvider from "./dataProvider/myAuthProvider";
 import PostIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/People';
@@ -13,7 +14,12 @@ import MyLayout from "./components/MyLayout";
 import Dashboard from "./components/Dashboard";
 import { createBrowserHistory } from "history";
 
-const i18nProvider = polyglotI18nProvider(() => vietNamMessage, 'fr');
+//const i18nProvider = polyglotI18nProvider(() => vietNamMessage, 'fr');
+
+const i18nProvider = polyglotI18nProvider(locale =>
+  locale === 'vi' ? vietNamMessage : englishMessages,
+  'vi' // Default locale
+)
 const history = createBrowserHistory();
 const App = () => (
   <Admin
@@ -23,6 +29,7 @@ const App = () => (
     dashboard={Dashboard}
     layout={MyLayout}
     history={history}
+
   >
 
     {permissions => [

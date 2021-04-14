@@ -18,6 +18,8 @@ import {
     Show,
     SimpleShowLayout,
     ShowButton,
+    Toolbar,
+    SaveButton
 } from 'react-admin';
 const PostFilter = (props) => (
     <Filter {...props}>
@@ -86,7 +88,7 @@ export const PostEdit = props => (
 
 export const PostCreate = props => (
     <Create {...props}>
-        <SimpleForm>
+        <SimpleForm toolbar={<PostCreateToolbar />}>
             <TextInput resettable source="title" />
             <TextInput resettable multiline source="content" />
             <ReferenceInput source="userId" reference="users">
@@ -95,4 +97,15 @@ export const PostCreate = props => (
             <DateTimeInput source="timestamp" />
         </SimpleForm>
     </Create>
+);
+
+const PostCreateToolbar = props => (
+    <Toolbar {...props}>
+        <SaveButton submitOnEnter={true} />
+        <SaveButton
+            label="post.action.save_and_notify"
+            transform={data => ({ ...data })}
+            submitOnEnter={false}
+        />
+    </Toolbar>
 );

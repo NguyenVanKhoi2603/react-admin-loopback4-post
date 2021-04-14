@@ -286,7 +286,8 @@ const provider = (apiUrl, httpClient = fetchJson) => {
                         if (params.filter) {
                             const [filter, rootQuery = {}] = filterFromParams(params.filter)
                             filter.where[params.target] = params.id
-                            url += '?' + `${stringify({ filter: JSON.stringify(filter), ...rootQuery })}`
+                            //url += '?' + `${stringify({ filter: JSON.stringify(filter), ...rootQuery })}`
+                            url += `?${stringify({ filter: JSON.stringify(filter), ...rootQuery })}`
                         }
                         break
                     }
@@ -321,6 +322,7 @@ const provider = (apiUrl, httpClient = fetchJson) => {
                     data: response.data,
                     total: count,
                 }
+            default:
         }
     }
 

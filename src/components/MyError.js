@@ -2,7 +2,9 @@ import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import ErrorIcon from '@material-ui/icons/Report';
 import { Title, useTranslate } from 'react-admin';
+import { createLocation } from 'history';
 
+const history = createLocation();
 const MyError = ({
     error,
     errorInfo,
@@ -24,7 +26,7 @@ const MyError = ({
                 <Button
                     variant="contained"
                     startIcon={<ErrorIcon />}
-                //onClick={() => history.go(-1)}
+                    onClick={() => history.go(-1)}
                 >
                     Back
                 </Button>
