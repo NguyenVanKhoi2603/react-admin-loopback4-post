@@ -29,7 +29,6 @@ const App = () => (
     dashboard={Dashboard}
     layout={MyLayout}
     history={history}
-
   >
 
     {permissions => [
@@ -43,15 +42,18 @@ const App = () => (
       <Resource
         name="posts"
         list={PostList}
-        edit={permissions === `"ADMIN"` ? PostEdit : null}
+        edit={permissions === `"ADMIN"` || permissions === `"MANAGER"` ? PostEdit : null}
         create={permissions === `"ADMIN"` || permissions === `"MANAGER"` ? PostCreate : null}
         show={PostShow}
         icon={PostIcon}
       />,
-      <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} create={UserCreate} show={UserShow} />
-      // permissions === `"MANAGER"`
-      //   ? 
-      //   : null,
+      <Resource
+        name="users"
+        list={UserList}
+        edit={permissions === `"ADMIN"` || permissions === `"MANAGER"` ? UserEdit : null}
+        icon={UserIcon}
+        create={UserCreate}
+        show={UserShow} />
     ]}
   </Admin>
 )

@@ -18,8 +18,7 @@ import {
     Show,
     SimpleShowLayout,
     ShowButton,
-    Toolbar,
-    SaveButton
+    useNotify, useRefresh, useRedirect,
 } from 'react-admin';
 const PostFilter = (props) => (
     <Filter {...props}>
@@ -72,40 +71,59 @@ export const PostList = props => (
     </List>
 );
 
-export const PostEdit = props => (
-    <Edit {...props}>
-        <SimpleForm>
-            <TextField source="id" />
-            <TextInput source="title" />
-            <TextInput source="content" multiline />
-            <ReferenceField source="userId" reference="users" >
-                <TextField source="username"></TextField>
-            </ReferenceField>
-            <DateTimeInput source="timestamp" />
-        </SimpleForm>
-    </Edit>
-);
+export const PostEdit = props => {
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        notify('Update success!')
+        redirect('/posts');
+        refresh();
+    };
+    const onFailure = () => {
+        notify('Update Failure!')
+        redirect('/posts');
+        refresh();
+    };
+    return (
+        <Edit {...props} onSuccess={onSuccess} onFailure={onFailure}>
+            <SimpleForm>
+                <TextField source="id" />
+                <TextInput source="title" />
+                <TextInput source="content" multiline />
+                <ReferenceField source="userId" reference="users" >
+                    <TextField source="username"></TextField>
+                </ReferenceField>
+                <DateTimeInput source="timestamp" />
+            </SimpleForm>
+        </Edit>
+    )
+}
 
-export const PostCreate = props => (
-    <Create {...props}>
-        <SimpleForm toolbar={<PostCreateToolbar />}>
-            <TextInput resettable source="title" />
-            <TextInput resettable multiline source="content" />
-            <ReferenceInput source="userId" reference="users">
-                <SelectInput optionText="username" />
-            </ReferenceInput>
-            <DateTimeInput source="timestamp" />
-        </SimpleForm>
-    </Create>
-);
-
-const PostCreateToolbar = props => (
-    <Toolbar {...props}>
-        <SaveButton submitOnEnter={true} />
-        <SaveButton
-            label="post.action.save_and_notify"
-            transform={data => ({ ...data })}
-            submitOnEnter={false}
-        />
-    </Toolbar>
-);
+export const PostCreate = props => {
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        notify('Create success!')
+        redirect('/posts');
+        refresh();
+    };
+    const onFailure = () => {
+        notify('Create Failure!')
+        redirect('/posts');
+        refresh();
+    };
+    return (
+        <Create {...props} onSuccess={onSuccess} onFailure={onFailure}>
+            <SimpleForm >
+                <TextInput resettable source="title" />
+                <TextInput resettable multiline source="content" />
+                <ReferenceInput source="userId" reference="users">
+                    <SelectInput optionText="username" />
+                </ReferenceInput>
+                <DateTimeInput source="timestamp" />
+            </SimpleForm>
+        </Create>
+    );
+}

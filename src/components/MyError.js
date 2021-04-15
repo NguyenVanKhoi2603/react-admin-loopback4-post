@@ -14,7 +14,7 @@ const MyError = ({
     return (
         <div>
             <Title title="Error" />
-            <h1><ErrorIcon /> Something Went Wrong </h1>
+            <h1><ErrorIcon /> Quay đầu là bờ đi.... </h1>
             <div>A client error occurred and your request couldn't be completed.</div>
             {process.env.NODE_ENV !== 'production' && (
                 <details>

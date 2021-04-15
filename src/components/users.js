@@ -7,22 +7,22 @@ import {
     Create,
     SimpleForm,
     Edit,
-    EditButton,
     Show,
     SimpleShowLayout,
     required,
     minLength,
     maxLength,
     Filter,
-    EmailField,
     useListContext,
     usePermissions,
-    ShowButton,
     ChipField,
+    useNotify, useRefresh, useRedirect,
 } from 'react-admin';
+import MyEmailField from './CustomField/MyEmailField';
+import { MyEditButton, MyShowButton } from './CustomField/MyButton';
 import PersonIcon from '@material-ui/icons/Person';
 
-import { Card, CardActions, CardHeader, Avatar, CardContent } from '@material-ui/core';
+import { Card, CardActions, CardHeader, Avatar, CardContent, Typography } from '@material-ui/core';
 const categoryGender = [
     { id: true, name: 'Men' },
     { id: false, name: 'Women' },
@@ -31,6 +31,7 @@ const categoryGender = [
 const categoryRole = [
     { id: 'ADMIN', name: 'ADMIN' },
     { id: 'USER', name: 'USER' },
+    { id: 'MANAGER', name: 'MANAGER' },
 ]
 
 const UserFilter = (props) => (
@@ -57,7 +58,7 @@ const UserGrid = () => {
                     <Card key={id} style={cardStyle}>
                         <CardHeader
                             title={<TextField record={data[id]} source="username" />}
-                            subheader={<EmailField record={data[id]} source="email" />}
+                            subheader={<MyEmailField record={data[id]} source="email" />}
                             avatar={<Avatar icon={<PersonIcon />} />}
                         />
                         <CardContent>
@@ -65,10 +66,10 @@ const UserGrid = () => {
                         </CardContent>
                         <CardActions>
                             <CardActions style={{ textAlign: 'right' }}>
-                                <EditButton resource="users" basePath={basePath} record={data[id]} />
+                                <MyEditButton resource="users" basePath={basePath} record={data[id]} />
                             </CardActions>
                             <CardActions style={{ textAlign: 'left' }}>
-                                <ShowButton resource="users" basePath={basePath} record={data[id]} />
+                                <MyShowButton resource="users" basePath={basePath} record={data[id]} />
                             </CardActions>
                         </CardActions>
                     </Card>
@@ -104,28 +105,67 @@ export const UserShow = (props) => (
 const validateUsername = [required(), minLength(6), maxLength(25)];
 const validatePassword = [required(), minLength(6), maxLength(35)];
 
-export const UserCreate = props => (
-    <Create {...props}>
-        <SimpleForm submitOnEnter={true}>
-            <SelectInput source="Gender" choices={categoryGender}>
-            </SelectInput>
-            <TextInput resettable source="username" validate={validateUsername} />
-            <TextInput resettable source="email" />
-            <TextInput resettable type="password" source="password" validate={validatePassword} />
-        </SimpleForm>
-    </Create>
+export const UserCreate = props => {
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        notify('Create success!')
+        redirect('/users');
+        refresh();
+    };
+    const onFailure = () => {
+        notify('Create Failure!')
+        redirect('/users');
+        refresh();
+    };
+    return (
+        <Create onSuccess={onSuccess} onFailure={onFailure} {...props}>
+            <SimpleForm submitOnEnter={true}>
+                <SelectInput source="Gender" choices={categoryGender}>
+                </SelectInput>
+                <TextInput resettable source="username" validate={validateUsername} />
+                <TextInput resettable source="email" />
+                <TextInput resettable type="password" source="password" validate={validatePassword} />
+            </SimpleForm>
+        </Create>
+    );
+}
+
+const Aside = () => (
+    <div style={{ width: 200, margin: '1em' }}>
+        <Typography variant="h6">Post details</Typography>
+        <Typography variant="body2">
+            Posts will only be published once an editor approves them
+        </Typography>
+    </div>
 );
 
-export const UserEdit = props => (
-    <Edit {...props}>
-        <SimpleForm>
-            <TextField source="id" />
-            <TextInput resettable source="username" />
-            <TextInput resettable source="email" />
-            <SelectInput source="gender" choices={categoryGender}>
-            </SelectInput>
-            <SelectInput source="role" choices={categoryRole}>
-            </SelectInput>
-        </SimpleForm>
-    </Edit>
-);
+export const UserEdit = props => {
+    const notify = useNotify();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        notify('Update success!')
+        redirect('/users');
+        refresh();
+    };
+    const onFailure = () => {
+        notify('Update Failure!')
+        redirect('/users');
+        refresh();
+    };
+    return (
+        <Edit {...props} onSuccess={onSuccess} onFailure={onFailure} aside={<Aside />}>
+            <SimpleForm>
+                <TextField source="id" />
+                <TextInput resettable source="username" />
+                <TextInput resettable source="email" />
+                <SelectInput source="gender" choices={categoryGender}>
+                </SelectInput>
+                <SelectInput source="role" choices={categoryRole}>
+                </SelectInput>
+            </SimpleForm>
+        </Edit>
+    )
+}

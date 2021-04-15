@@ -15,12 +15,9 @@ const authProvider = {
             })
             .then(token => {
                 localStorage.setItem('token', JSON.stringify(token));
-                //requestHeaders.set('Authorization', `Bearer ${token.token}`)
-                //headers: new headers({ 'Authorization': 'Bearer ' + token.token })
                 localStorage.setItem('permissions', JSON.stringify(token.info.role));
                 localStorage.setItem('userId', JSON.stringify(token.info.id));
                 localStorage.setItem('username', JSON.stringify(token.info.username));
-
             })
             .catch(() => {
 
@@ -30,8 +27,10 @@ const authProvider = {
     checkError: (error) => {
         const status = error.status;
         if (status === 401 || status === 403) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('permissions');
+            // localStorage.removeItem('token');
+            // localStorage.removeItem('permissions');
+            // localStorage.removeItem('userId');
+            // localStorage.removeItem('username');
             return Promise.reject({ message: false });
         }
         return Promise.resolve();
@@ -40,8 +39,9 @@ const authProvider = {
         ? Promise.resolve()
         : Promise.reject({ message: false }),
     logout: () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('permissions');
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('permissions');
+        localStorage.clear();
         return Promise.resolve();
 
     },

@@ -90,7 +90,7 @@ const Menu = ({ onMenuClick, logout }) => {
                         resource.name
                     }
                     leftIcon={
-                        resource.icon ? <resource.icon /> : <DefaultIcon />
+                        resource.icon ? <resource.icon /> : <Collapse />
                     }
                     onClick={onMenuClick}
                     sidebarIsOpen={open}
